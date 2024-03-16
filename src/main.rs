@@ -44,6 +44,13 @@ impl Default for GomokuApp {
     }
 }
 
+/// Converts a column index to a corresponding letter (A, B, C, ...).
+/// Assumes 0-based indexing for columns.
+fn column_index_to_letter(index: usize) -> char {
+    // Add the index to the ASCII value of 'A' and convert to a character.
+    (b'A' + index as u8) as char
+}
+
 impl GomokuApp {
     fn save_game_as(&self) {
         // Specify a default filename and a filter for JSON files
@@ -87,6 +94,16 @@ impl GomokuApp {
                     ui.label("The objective of Gomoku is to be the first player to get five stones in a row, either horizontally, vertically, or diagonally.");
                     ui.label("\nPlayers take turns placing a stone of their color on an empty intersection.");
                     ui.label("\nThe game ends when one player forms an unbroken chain of five stones, or if all intersections are filled without a winner.");
+
+                    ui.separator();
+
+                    ui.heading("Optional Tournament Rules");
+                    ui.label("To limit first move advantage, additionally consider using one of these rules:");
+                    
+                    ui.label("\nPro Rule: The first player's first stone must be placed in the center. The second player's first stone can go anywhere. The first player's second stone must be three intersections away from the first.");
+                    ui.label("\nLong Pro Rule: Similar to Pro, but the second stone must be four intersections away.");
+                    ui.label("\nSwap: The first player places three stones (two black, one white) anywhere. The second player chooses their color.");
+                    ui.label("\nSwap2: The first player places three stones, two black and one white. The second player has three options: Choose white and place a second white stone, swap colors, or place two more stones (one of each color) and let the first player choose the color.");
                 });
         }
     }
@@ -210,6 +227,45 @@ impl eframe::App for GomokuApp {
                         painter.line_segment([start, end], (1.0, egui::Color32::BLACK));
                     }
 
+                    // Guide points for the board
+                    let points = vec![
+                        (BOARD_SIZE / 2, BOARD_SIZE / 2), // Center point
+                        (3, 3), (3, BOARD_SIZE - 4),      // Corner points
+                        (BOARD_SIZE - 4, 3), (BOARD_SIZE - 4, BOARD_SIZE - 4),
+                    ];
+                    let point_radius = cell_size / 10.0; // Size of the point
+                    for &(x, y) in &points {
+                        let center = rect.left_top() + egui::vec2(y as f32 * cell_size, x as f32 * cell_size);
+                        painter.circle_filled(center, point_radius, egui::Color32::BLACK);
+                    }
+
+                    // Row indicators (Numbers), positioned to the left of the board
+                    for i in 0..BOARD_SIZE {
+                        let text = format!("{}", i + 1); // Rows numbered from 1 to BOARD_SIZE
+                        let x_pos = rect.left() - 5.0; // A fixed offset to the left of the board
+                        let y_pos = rect.top() + i as f32 * cell_size + cell_size / 2.0 - 15.0;
+                        painter.text(
+                            egui::pos2(x_pos, y_pos),
+                            egui::Align2::RIGHT_CENTER,
+                            text,
+                            egui::FontId::default(),
+                            egui::Color32::BLACK,
+                        );
+                    }
+
+                    for i in 0..BOARD_SIZE {
+                        let text = column_index_to_letter(i).to_string(); // Convert column number to letter
+                        let x_pos = rect.left() + i as f32 * cell_size + cell_size / 2.0 - 15.0; 
+                        let y_pos = rect.bottom() - 30.0;
+                        painter.text(
+                            egui::pos2(x_pos, y_pos),
+                            egui::Align2::CENTER_TOP,
+                            text,
+                            egui::FontId::default(),
+                            egui::Color32::BLACK,
+                        );
+                    }
+
                     // Stones
                     for i in 0..BOARD_SIZE {
                         for j in 0..BOARD_SIZE {
@@ -309,48 +365,42 @@ impl eframe::App for GomokuApp {
                     ui.heading("Move History");
                     let move_pairs = self.history.chunks(2);
                     let mut turn_number = 1;
-
+                
                     for pair in move_pairs {
                         match pair {
                             [black_move, white_move] => {
                                 ui.horizontal(|ui| {
                                     ui.label(format!("{}.", turn_number));
+                                    let black_col_letter = column_index_to_letter(black_move.2 .1);
                                     ui.label(format!(
                                         "Black: ({}, {})",
-                                        black_move.2 .0 + 1,
-                                        black_move.2 .1 + 1
+                                        black_col_letter,
+                                        black_move.2 .0 + 1
                                     ));
+                                    let white_col_letter = column_index_to_letter(white_move.2 .1);
                                     ui.label(format!(
                                         "White: ({}, {})",
-                                        white_move.2 .0 + 1,
-                                        white_move.2 .1 + 1
+                                        white_col_letter,
+                                        white_move.2 .0 + 1
                                     ));
                                 });
                                 turn_number += 1;
                             }
                             [last_move] => {
-                                // Handle the case where there's an odd number of moves
+                                let col_letter = column_index_to_letter(last_move.2 .1);
                                 let label = match last_move.1 {
                                     Player::Black => {
                                         format!("{}.   ", turn_number)
-                                            + &format!(
-                                                "Black: ({}, {})",
-                                                last_move.2 .0 + 1,
-                                                last_move.2 .1 + 1
-                                            )
+                                            + &format!("Black: ({}, {})", col_letter, last_move.2 .0 + 1)
                                     }
                                     Player::White => {
                                         format!("{}.   ", turn_number)
-                                            + &format!(
-                                                "White: ({}, {})",
-                                                last_move.2 .0 + 1,
-                                                last_move.2 .1 + 1
-                                            )
+                                            + &format!("White: ({}, {})", col_letter, last_move.2 .0 + 1)
                                     }
                                 };
                                 ui.label(label);
                             }
-                            _ => {} // This case should never be hit due to how chunking works
+                            _ => {}
                         }
                     }
                 });

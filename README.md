@@ -53,6 +53,37 @@ Upon starting the game, you will be presented with a 15x15 board. The game start
 - **Save Game**: Saves the current game state to a file.
 - **Load Game**: Loads a game state from a file.
 
+## Optional Tournament Rules
+
+For players looking to mitigate the first player advantage, the following tournament rules can be optionally followed:
+
+### Pro Rule
+
+- **First Move**: The first player's first stone must be placed in the center of the board.
+- **Second Move**: The second player's first stone may be placed anywhere on the board.
+- **Third Move**: The first player's second stone must be placed at least three intersections away from the first stone, meaning there should be two empty intersections between the two stones.
+
+### Long Pro Rule
+
+- **First Move**: Similar to the Pro rule, the first player's first stone is placed in the center of the board.
+- **Second Move**: The second player's first stone may be placed anywhere on the board.
+- **Third Move**: The first player's second stone must be placed at least four intersections away from the first stone, requiring three empty intersections between the two stones.
+
+### Swap
+
+- The tentative first player places three stones on the board (two black and one white) in any configuration.
+- The tentative second player then chooses which color to play as, and the game proceeds with the second player as white playing their second stone.
+
+### Swap2
+
+- **Initial Placement**: The tentative first player places three stones on the board, two black and one white.
+- **Second Player's Options**:
+    1. Choose to play as white and place a second white stone.
+    2. Swap colors, choosing to play as black.
+    3. Place two more stones, one black and one white, and pass the choice of which color to play back to the tentative first player.
+
+This protocol limits the advantage of excessive preparation by one player, as the second player's choice, especially with option 3, introduces uncertainty regarding the initial stone placements.
+
 ## License
 
 This project is open source and available under the [MIT License](LICENSE).
