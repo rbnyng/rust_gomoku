@@ -1,6 +1,6 @@
 # Gomoku Game in Rust
 
-This project is a Gomoku game (also known as Five in a Row) implemented in Rust using the `eframe` and `egui` libraries for the GUI, and `serde` and `serde_json` for game state serialization. The game allows two players to take turns placing stones on a 15x15 board with the goal of being the first to align five stones vertically, horizontally, or diagonally.
+This project is a Gomoku game (also known as Five in a Row) implemented in Rust using the `eframe` and `egui` libraries for the GUI, and `serde` and `serde_json` for game state serialization. The game allows two players to take turns placing stones on a 15x15 board with the goal of being the first to align five stones vertically, horizontally, or diagonally. It can be built and run as a native application or deployed as a WebAssembly application to be played in a web browser, with some differences in functionality between the two versions.
 
 ![Screenshot of game](img/game.png?raw=true "Title")
 
@@ -8,12 +8,12 @@ This project is a Gomoku game (also known as Five in a Row) implemented in Rust 
 
 - An interactive game board GUI.
 - Support for undoing moves and resetting the game.
-- Game state persistence with save and load functionality.
+- (Native only) Game state persistence with save and load functionality.
 - A help window that explains the game rules.
 
 ## Installation
 
-To build this game from source, you need to have Rust and Cargo installed on your computer. If you don't have Rust installed, you can follow the instructions at [https://www.rust-lang.org/tools/install](https://www.rust-lang.org/tools/install).
+To build this game from source, you need to have Rust and Cargo installed on your computer. If you don't have Rust installed, you can follow the instructions [https://www.rust-lang.org/tools/install](here).
 
 ### Cloning the Repository
 
@@ -40,6 +40,39 @@ Or you can build it into an executable with:
     ```
 
 Alternatively, run the precompiled Windows executable.
+
+### WebAssembly Deployment
+
+To deploy the game as a WebAssembly application and play it in a web browser, use the following commands:
+
+1. Install `trunk`:
+
+    ```sh
+    cargo install trunk
+    ```
+
+2. Install the required wasm target with:
+    ```sh
+    rustup target add wasm32-unknown-unknown
+    ```
+
+#### Web Local Testing
+
+1. Build and serve the game locally on `http://127.0.0.1:8080` with:
+    ```sh
+    trunk serve
+    ```
+
+#### Web Deploy
+
+1. Build the dist with:
+    ```sh
+    trunk build --release --public-url .
+    ```
+
+This generates a `dist` folder as the static html to deploy.
+
+Alternatively, a workflow is included to automatically build and deploy to GitHub Pages. This is the version I used to deploy it [https://rbnyng.github.io/rust_gomoku/](here) 
 
 ## Usage
 

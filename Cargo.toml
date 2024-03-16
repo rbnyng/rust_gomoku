@@ -31,5 +31,6 @@ serde_json = "1.0.114"
 rfd = "0.14.0"
 windows = "0.54.0"
 
+# for webassembly target:
 # build with trunk build --release --public-url . and deploy dist folder
 
