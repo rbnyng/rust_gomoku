@@ -13,7 +13,7 @@ This project is a Gomoku game (also known as Five in a Row) implemented in Rust 
 
 ## Installation
 
-To build this game from source, you need to have Rust and Cargo installed on your computer. If you don't have Rust installed, you can follow the instructions [https://www.rust-lang.org/tools/install](here).
+To build this game from source, you need to have Rust and Cargo installed on your computer. If you don't have Rust installed, you can follow the instructions [here](https://www.rust-lang.org/tools/install).
 
 ### Cloning the Repository
 
@@ -72,7 +72,7 @@ To deploy the game as a WebAssembly application and play it in a web browser, us
 
 This generates a `dist` folder as the static html to deploy.
 
-Alternatively, a workflow is included to automatically build and deploy to GitHub Pages. This is the version I used to deploy it [https://rbnyng.github.io/rust_gomoku/](here) 
+Alternatively, a workflow is included to automatically build and deploy to GitHub Pages. This is the version I used to deploy it [here](https://rbnyng.github.io/rust_gomoku) 
 
 ## Usage
 
