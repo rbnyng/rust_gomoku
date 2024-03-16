@@ -1,4 +1,4 @@
-name: Rust Build
+name: Rust Build Native Windows
 
 on: workflow_dispatch
 
