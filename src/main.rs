@@ -53,7 +53,8 @@ fn column_index_to_letter(index: usize) -> char {
 
 impl GomokuApp {
     // rfd doesn't work for wasm
-/*     fn save_game_as(&self) {
+    #[cfg(not(target_arch = "wasm32"))]
+    fn save_game_as(&self) {
         // Specify a default filename and a filter for JSON files
         let default_path = "savegame.json";
         if let Some(path) = rfd::FileDialog::new()
@@ -66,7 +67,7 @@ impl GomokuApp {
             std::fs::write(path, serialized).expect("Unable to save game");
         }
     }
-
+    #[cfg(not(target_arch = "wasm32"))]
     fn load_game_browse(&mut self) {
         if let Some(path) = rfd::FileDialog::new()
             .set_directory(".")
@@ -79,7 +80,7 @@ impl GomokuApp {
             *self = loaded_game;
         }
     }
- */
+
     fn reset_game(&mut self) {
         self.board = [[None; BOARD_SIZE]; BOARD_SIZE];
         self.current_player = Player::Black;
@@ -350,13 +351,16 @@ impl eframe::App for GomokuApp {
                         if ui.button("Help").clicked() {
                             self.show_help = true;
                         }
-/*                         if ui.button("Save Game").clicked() {
-                            self.save_game_as();
-                        }
-                        if ui.button("Load Game").clicked() {
-                            self.load_game_browse();
-                        }
- */                    });
+
+                        #[cfg(not(target_arch = "wasm32"))]{
+                            if ui.button("Save Game").clicked() {
+                                self.save_game_as();
+                            }
+                            if ui.button("Load Game").clicked() {
+                                self.load_game_browse();
+                            }
+                        }           
+                     });
                 });
 
                 self.show_game_rules(ctx);
@@ -410,6 +414,7 @@ impl eframe::App for GomokuApp {
     }
 }
 
+// native app
 #[cfg(not(target_arch = "wasm32"))]
 fn main() {
     let options = eframe::NativeOptions::default();
