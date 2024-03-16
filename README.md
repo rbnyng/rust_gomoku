@@ -82,8 +82,6 @@ For players looking to mitigate the first player advantage, the following tourna
     2. Swap colors, choosing to play as black.
     3. Place two more stones, one black and one white, and pass the choice of which color to play back to the tentative first player.
 
-This protocol limits the advantage of excessive preparation by one player, as the second player's choice, especially with option 3, introduces uncertainty regarding the initial stone placements.
-
 ## License
 
 This project is open source and available under the [MIT License](LICENSE).
