@@ -1,6 +1,6 @@
 # Gomoku Game in Rust
 
-This project is a Gomoku game (also known as Five in a Row) implemented in Rust using the `eframe` and `egui` libraries for the GUI, and `serde` and `serde_json` for game state serialization. The game allows two players to take turns placing stones on a 15x15 board with the goal of being the first to align five stones vertically, horizontally, or diagonally. It can be built and run as a native application or deployed as a WebAssembly application to be played in a web browser, with some differences in functionality between the two versions.
+This project is a Gomoku game (also known as Five in a Row, Wuziqi, Gomokunarabe, Omok...) implemented in Rust using the `eframe` and `egui` libraries for the GUI, and `serde` and `serde_json` for game state serialization. The game allows two players to take turns placing stones on a 15x15 board with the goal of being the first to align five stones vertically, horizontally, or diagonally. It can be built and run as a native application or deployed as a WebAssembly application to be played in a web browser, with some differences in functionality between the two versions.
 
 ![Screenshot of game](img/game.png?raw=true "Title")
 
