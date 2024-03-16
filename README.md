@@ -2,6 +2,8 @@
 
 This project is a Gomoku game (also known as Five in a Row) implemented in Rust using the `eframe` and `egui` libraries for the GUI, and `serde` and `serde_json` for game state serialization. The game allows two players to take turns placing stones on a 15x15 board with the goal of being the first to align five stones vertically, horizontally, or diagonally.
 
+![Screenshot of game](img/game.png?raw=true "Title")
+
 ## Features
 
 - An interactive game board GUI.
